@@ -1,3 +1,5 @@
+package Chess;
+
 abstract class Piece {
     protected Player color;
     
