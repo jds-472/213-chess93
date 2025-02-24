@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Chess {
 
         enum Player { white, black }
+	private static Board board;
+	private static Player currPlayer;
     
 	/**
 	 * Plays the next move for whichever player has the turn.
@@ -29,6 +31,8 @@ public class Chess {
 	 * This method should reset the game, and start from scratch.
 	 */
 	public static void start() {
-		/* FILL IN THIS METHOD */
+		board = new Board();
+        	board.initialize();
+        	currPlayer = Player.white;
 	}
 }
