@@ -1,13 +1,15 @@
 package Chess;
 
 abstract class Piece {
-    protected Player color;
+    public static final boolean WHITE = true;
+    public static final boolean BLACK = false;
+    protected boolean color;
     
-    public Piece(Player color) {
+    public Piece(boolean color) {
         this.color = color;
     }
     
-    public Player getColor() {
+    public boolean getColor() {
         return color;
     }
     
@@ -15,7 +17,7 @@ abstract class Piece {
 }
 
 class Pawn extends Piece {
-    public Pawn(Player color) {
+    public Pawn(boolean color) {
         super(color);
     }
     
@@ -25,7 +27,7 @@ class Pawn extends Piece {
 }
 
 class Rook extends Piece {
-    public Rook(Player color) {
+    public Rook(boolean color) {
         super(color);
     }
     
@@ -35,7 +37,7 @@ class Rook extends Piece {
 }
 
 class Knight extends Piece {
-    public Knight(Player color) {
+    public Knight(boolean color) {
         super(color);
     }
     
@@ -45,7 +47,7 @@ class Knight extends Piece {
 }
 
 class Bishop extends Piece {
-    public Bishop(Player color) {
+    public Bishop(boolean color) {
         super(color);
     }
     
@@ -55,7 +57,7 @@ class Bishop extends Piece {
 }
 
 class Queen extends Piece {
-    public Queen(Player color) {
+    public Queen(boolean color) {
         super(color);
     }
     
@@ -65,7 +67,7 @@ class Queen extends Piece {
 }
 
 class King extends Piece {
-    public King(Player color) {
+    public King(boolean color) {
         super(color);
     }
     

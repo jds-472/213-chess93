@@ -6,7 +6,7 @@ public class Chess {
 
         enum Player { white, black }
 	private static Board board;
-	private static Player currPlayer;
+	private static boolean currPlayer;
     
 	/**
 	 * Plays the next move for whichever player has the turn.
@@ -33,6 +33,6 @@ public class Chess {
 	public static void start() {
 		board = new Board();
         	board.initialize();
-        	currPlayer = Player.white;
+        	currPlayer = WHITE;
 	}
 }
