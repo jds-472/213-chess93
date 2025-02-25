@@ -1,22 +1,37 @@
 package Chess;
 
-abstract class Piece {
-    protected boolean color;
+abstract class Piece extends ReturnPiece{
+    protected Chess.Player color;
     
-    public Piece(boolean color) {
+    public Piece(Chess.Player color, PieceType type, PieceFile file, int rank) {
         this.color = color;
+        this.pieceType = type;
+        this.pieceFile = file;
+        this.pieceRank = rank;
     }
     
-    public boolean getColor() {
+    public Chess.Player getColor() {
         return color;
+    }
+
+    public PieceType getType() {
+        return pieceType;
+    }
+
+    public PieceFile getFile() {
+        return pieceFile;
+    }
+
+    public int getRank() {
+        return pieceRank;
     }
     
     public abstract boolean canMove(String from, String to, Board board);
 }
 
 class Pawn extends Piece {
-    public Pawn(boolean color) {
-        super(color);
+    public Pawn(Chess.Player color, PieceType type, PieceFile file, int rank) {
+        super(color, type, file, rank);
     }
     
     public boolean canMove(String from, String to, Board board) {
@@ -25,8 +40,8 @@ class Pawn extends Piece {
 }
 
 class Rook extends Piece {
-    public Rook(boolean color) {
-        super(color);
+    public Rook(Chess.Player color, PieceType type, PieceFile file, int rank) {
+        super(color, type, file, rank);
     }
     
     public boolean canMove(String from, String to, Board board) {
@@ -35,8 +50,8 @@ class Rook extends Piece {
 }
 
 class Knight extends Piece {
-    public Knight(boolean color) {
-        super(color);
+    public Knight(Chess.Player color, PieceType type, PieceFile file, int rank) {
+        super(color, type, file, rank);
     }
     
     public boolean canMove(String from, String to, Board board) {
@@ -45,8 +60,8 @@ class Knight extends Piece {
 }
 
 class Bishop extends Piece {
-    public Bishop(boolean color) {
-        super(color);
+    public Bishop(Chess.Player color, PieceType type, PieceFile file, int rank) {
+        super(color, type, file, rank);
     }
     
     public boolean canMove(String from, String to, Board board) {
@@ -55,8 +70,8 @@ class Bishop extends Piece {
 }
 
 class Queen extends Piece {
-    public Queen(boolean color) {
-        super(color);
+    public Queen(Chess.Player color, PieceType type, PieceFile file, int rank) {
+        super(color, type, file, rank);
     }
     
     public boolean canMove(String from, String to, Board board) {
@@ -65,8 +80,8 @@ class Queen extends Piece {
 }
 
 class King extends Piece {
-    public King(boolean color) {
-        super(color);
+    public King(Chess.Player color, PieceType type, PieceFile file, int rank) {
+        super(color, type, file, rank);
     }
     
     public boolean canMove(String from, String to, Board board) {
