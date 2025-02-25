@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public class Chess {
 
         enum Player { white, black }
-	private static Board board;
-	private static boolean currPlayer;
+	private static Player currPlayer;
     
 	/**
 	 * Plays the next move for whichever player has the turn.
@@ -18,12 +17,17 @@ public class Chess {
 	 *         the contents of the returned ReturnPlay instance.
 	 */
 	public static ReturnPlay play(String move) {
-
+		ReturnPlay result = new ReturnPlay();
+		switch (move)
+		{
+			case "resign":
+			default:
+				return null;
+		}
 		/* FILL IN THIS METHOD */
 		
 		/* FOLLOWING LINE IS A PLACEHOLDER TO MAKE COMPILER HAPPY */
 		/* WHEN YOU FILL IN THIS METHOD, YOU NEED TO RETURN A ReturnPlay OBJECT */
-		return null;
 	}
 	
 	
@@ -31,8 +35,7 @@ public class Chess {
 	 * This method should reset the game, and start from scratch.
 	 */
 	public static void start() {
-		board = new Board();
-        	board.initialize();
-        	currPlayer = Board.WHITE;
+        Board.initialize();
+        currPlayer = Player.white;
 	}
 }
