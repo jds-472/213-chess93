@@ -33,6 +33,6 @@ public class Chess {
 	public static void start() {
 		board = new Board();
         	board.initialize();
-        	currPlayer = WHITE;
+        	currPlayer = Board.WHITE;
 	}
 }

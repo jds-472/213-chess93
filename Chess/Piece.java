@@ -1,8 +1,6 @@
 package Chess;
 
 abstract class Piece {
-    public static final boolean WHITE = true;
-    public static final boolean BLACK = false;
     protected boolean color;
     
     public Piece(boolean color) {

@@ -1,6 +1,8 @@
 package Chess;
 
 public class Board {
+    public static final boolean WHITE = true;
+    public static final boolean BLACK = false;
     private Piece[][] board;
 
     public Board() {
