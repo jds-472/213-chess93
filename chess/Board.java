@@ -1,4 +1,4 @@
-package Chess;
+package chess;
 
 import java.util.ArrayList;
 
@@ -48,9 +48,11 @@ public class Board {
 
     public static Piece getPiece(ReturnPiece.PieceFile file, int rank) {
         if (rank <= 0 || rank > 8) {
-            return null;
+            throw new IllegalArgumentException("Invalid rank: " + rank);
         }
         int fileIndex = file.ordinal();
         return board[rank-1][fileIndex];
     }
+
+
 }
