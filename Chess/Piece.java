@@ -25,27 +25,41 @@ abstract class Piece extends ReturnPiece{
     public int getRank() {
         return pieceRank;
     }
+
+    public void setPieceType(PieceType type) {
+        this.pieceType = type;
+    }
+
+    public void setPieceFile(PieceFile file) {
+        this.pieceFile = file;
+    }
+
+    public void setPieceRank(int rank) {
+        this.pieceRank = rank;
+    }
     
-    public abstract boolean canMove(String from, String to, Board board);
+    public abstract Piece move(PieceFile fileTo, int rankTo);
 }
 
 class Pawn extends Piece {
+    private boolean hasMoved;
     public Pawn(Chess.Player color, PieceType type, PieceFile file, int rank) {
         super(color, type, file, rank);
     }
     
-    public boolean canMove(String from, String to, Board board) {
-        return true; // Implement pawn movement rules
+    public Piece move(PieceFile fileTo, int rankTo) {
+        return this; // Implement pawn movement rules
     }
 }
 
 class Rook extends Piece {
+    private boolean hasMoved;
     public Rook(Chess.Player color, PieceType type, PieceFile file, int rank) {
         super(color, type, file, rank);
     }
     
-    public boolean canMove(String from, String to, Board board) {
-        return true; // Implement rook movement rules
+    public Piece move(PieceFile fileTo, int rankTo) {
+        return this; // Implement rook movement rules
     }
 }
 
@@ -54,8 +68,8 @@ class Knight extends Piece {
         super(color, type, file, rank);
     }
     
-    public boolean canMove(String from, String to, Board board) {
-        return true; // Implement knight movement rules
+    public Piece move(PieceFile fileTo, int rankTo) {
+        return this; // Implement knight movement rules
     }
 }
 
@@ -64,8 +78,8 @@ class Bishop extends Piece {
         super(color, type, file, rank);
     }
     
-    public boolean canMove(String from, String to, Board board) {
-        return true; // Implement bishop movement rules
+    public Piece move(PieceFile fileTo, int rankTo) {
+        return this; // Implement bishop movement rules
     }
 }
 
@@ -74,17 +88,18 @@ class Queen extends Piece {
         super(color, type, file, rank);
     }
     
-    public boolean canMove(String from, String to, Board board) {
-        return true; // Implement queen movement rules
+    public Piece move(PieceFile fileTo, int rankTo) {
+        return this; // Implement queen movement rules
     }
 }
 
 class King extends Piece {
+    private boolean hasMoved;
     public King(Chess.Player color, PieceType type, PieceFile file, int rank) {
         super(color, type, file, rank);
     }
     
-    public boolean canMove(String from, String to, Board board) {
-        return true; // Implement king movement rules
+    public Piece move(PieceFile fileTo, int rankTo) {
+        return this; // Implement king movement rules
     }
 }
