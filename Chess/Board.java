@@ -45,4 +45,12 @@ public class Board {
         }
         return pieces;
     }
+
+    public static Piece getPiece(ReturnPiece.PieceFile file, int rank) {
+        if (rank <= 0 || rank > 8) {
+            return null;
+        }
+        int fileIndex = file.ordinal();
+        return board[rank-1][fileIndex];
+    }
 }
