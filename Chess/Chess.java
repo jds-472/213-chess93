@@ -18,16 +18,50 @@ public class Chess {
 	 */
 	public static ReturnPlay play(String move) {
 		ReturnPlay result = new ReturnPlay();
-		switch (move)
-		{
-			case "resign":
-			default:
-				return null;
+		result.piecesOnBoard = Board.getPieces();
+		if (move.equals("resign")){
+			if(currPlayer == Player.white){
+				result.message = ReturnPlay.Message.RESIGN_WHITE_WINS;
+				return result;
+			}
+			else{
+				result.message = ReturnPlay.Message.RESIGN_BLACK_WINS;
+				return result;
+			}
 		}
-		/* FILL IN THIS METHOD */
-		
-		/* FOLLOWING LINE IS A PLACEHOLDER TO MAKE COMPILER HAPPY */
-		/* WHEN YOU FILL IN THIS METHOD, YOU NEED TO RETURN A ReturnPlay OBJECT */
+		String[] moveParts = move.split(" ");
+		if (moveParts.length < 2 || moveParts.length > 3){
+			result.message = ReturnPlay.Message.ILLEGAL_MOVE;
+			return result;
+		}
+		ReturnPiece.PieceFile fromFile = ReturnPiece.PieceFile.valueOf(moveParts[0].substring(0, 1));
+		int fromRank = Integer.parseInt(moveParts[0].substring(1));
+		ReturnPiece.PieceFile toFile = ReturnPiece.PieceFile.valueOf(moveParts[1].substring(0, 1));
+		int toRank = Integer.parseInt(moveParts[1].substring(1));
+		Piece current = Board.getPiece(fromFile, fromRank);
+		if (current == null){
+			result.message = ReturnPlay.Message.ILLEGAL_MOVE;
+			System.out.println("current is null");
+			return result;
+		}
+		if (current.getColor() != currPlayer){
+			result.message = ReturnPlay.Message.ILLEGAL_MOVE;
+			System.out.println("wrong color");
+			return result;
+		}
+		current = current.move(toFile, toRank);
+		if (current == null){
+			result.message = ReturnPlay.Message.ILLEGAL_MOVE;
+			System.out.println("current became null after move");
+			return result;
+		}
+		if (currPlayer == Player.white){
+			currPlayer = Player.black;
+		}
+		else{
+			currPlayer = Player.white;
+		}
+		return result;
 	}
 	
 	
