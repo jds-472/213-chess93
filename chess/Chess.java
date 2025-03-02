@@ -85,6 +85,7 @@ public class Chess {
 	 */
 	public static void start() {
         Board.initialize();
+		Clock.reset();
         currPlayer = Player.white;
 	}
 }

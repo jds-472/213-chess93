@@ -3,6 +3,7 @@ package chess;
 abstract class Piece extends ReturnPiece{
     protected Chess.Player color;
     protected boolean hasMoved;
+    protected int lastTurn;
     
     public Piece(Chess.Player color, PieceType type, PieceFile file, int rank) {
         this.color = color;
@@ -10,6 +11,7 @@ abstract class Piece extends ReturnPiece{
         this.pieceFile = file;
         this.pieceRank = rank;
         hasMoved = false;
+        lastTurn = 0;
     }
     
     public Chess.Player getColor() {
@@ -30,6 +32,10 @@ abstract class Piece extends ReturnPiece{
 
     public boolean getHasMoved() {
         return hasMoved;
+    }
+
+    public int getLastTurn() {
+        return lastTurn;
     }
 
     public void setPieceType(PieceType type) {
@@ -62,11 +68,13 @@ abstract class Piece extends ReturnPiece{
         pieceRank = rankTo;
         hasMoved = true;
         Board.updateBoard(this);
+        lastTurn = Clock.getCurrentTurn();
+        Clock.incrementTurn();
     }
 }
 
 class Pawn extends Piece {
-    private boolean hasMoved;
+    private int squaresMoved;
     public Pawn(Chess.Player color, PieceType type, PieceFile file, int rank) {
         super(color, type, file, rank);
     }
@@ -80,22 +88,36 @@ class Pawn extends Piece {
         Piece destination = Board.getPiece(fileTo, rankTo);
 
         if ((color == Chess.Player.white && rankDiff > 0) || (color == Chess.Player.black && rankDiff < 0)) {
+            if (rankTo == 1 || rankTo == 8) {
+                pieceType = color == Chess.Player.white ? PieceType.WQ : PieceType.BQ;
+            }
             if (fileDiff == 0 && destination == null && (Math.abs(rankDiff) == 1 || (Math.abs(rankDiff) == 2 && !hasMoved))) {
-                if (rankTo == 1 || rankTo == 8) {
-                    pieceType = color == Chess.Player.white ? PieceType.WQ : PieceType.BQ;
-                }
                 updatePosition(fileTo, rankTo);
+                squaresMoved = Math.abs(rankDiff);
                 return this;
             }
             if (destination != null && Math.abs(fileDiff) == 1 && Math.abs(rankDiff) == 1) {
                 updatePosition(fileTo, rankTo);
+                squaresMoved = Math.abs(rankDiff);
                 return this;
+            }
+            if (destination == null && Math.abs(fileDiff) == 1 && Math.abs(rankDiff) == 1) {
+                Piece enPassant = Board.getPiece(fileTo, pieceRank);
+                if (enPassant != null && ((enPassant.getType() == PieceType.WP && color == Chess.Player.black) || enPassant.getType() == PieceType.BP && color == Chess.Player.white) && enPassant.getLastTurn() == Clock.getCurrentTurn() - 1 && ((Pawn) enPassant).getSquaresMoved() == 2) {
+                    Board.removePiece(enPassant);
+                    updatePosition(fileTo, rankTo);
+                    squaresMoved = Math.abs(rankDiff);
+                    return this;
+                }
             }
         }
         return null;
     }
 
     public Piece promote(PieceFile fileTo, int rankTo, String type) {
+        if (rankTo != 1 && rankTo != 8) {
+            return null;
+        }
         move(fileTo, rankTo);
         switch (type) {
             case "N":
@@ -114,6 +136,10 @@ class Pawn extends Piece {
                 throw new IllegalArgumentException("Invalid piece type for promotion: " + type);
         }
         return this;
+    }
+
+    public int getSquaresMoved() {
+        return squaresMoved;
     }
 }
 
@@ -146,11 +172,15 @@ class Knight extends Piece {
             return null;
         }
         Piece dest = Board.getPiece(fileTo, rankTo);
-        if (dest != null && dest.getColor() == color) {
-            return null;
+        int rankDiff = Math.abs(rankTo - pieceRank);
+        int fileDiff = Math.abs(fileTo.compareTo(pieceFile));
+        if ((rankDiff == 2 && fileDiff == 1) || (rankDiff == 1 && fileDiff == 2)) {
+            if (dest == null || dest.getColor() != color) {
+                updatePosition(fileTo, rankTo);
+                return this;
+            }
         }
-        updatePosition(fileTo, rankTo);
-        return this; // Implement deleting the piece it captures
+        return null;
     }
 }
 
@@ -204,9 +234,20 @@ class King extends Piece {
         int rankDiff = Math.abs(rankTo - pieceRank);
         int fileDiff = Math.abs(fileTo.compareTo(pieceFile));
 
-        if (rankDiff <= 1 && fileDiff <= 1) {
+        if (rankDiff <= 1 && fileDiff <= 1 && (rankDiff != 0 || fileDiff != 0)) {
             updatePosition(fileTo, rankTo);
             return this;
+        }
+
+        if (rankDiff == 0 && fileDiff == 2 && !hasMoved) {
+            Piece rook = fileTo.compareTo(pieceFile) < 0 ? Board.getPiece(PieceFile.a, pieceRank) : Board.getPiece(PieceFile.h, pieceRank);
+            if (rook != null && !rook.getHasMoved() && ((rook.getType() == PieceType.WR && color == Chess.Player.white) || (rook.getType() == PieceType.BR && color == Chess.Player.black))) {
+                PieceFile rookFileTo = fileTo.compareTo(pieceFile) < 0 ? PieceFile.d : PieceFile.f;
+                if (rook.move(rookFileTo, rankTo) != null) {
+                    updatePosition(fileTo, rankTo);
+                    return this;
+                }
+            }
         }
         return null; 
     }
