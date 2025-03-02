@@ -156,6 +156,7 @@ class Rook extends Piece {
         if  (pieceRank == rankTo || pieceFile == fileTo) {
             if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { 
                 updatePosition(fileTo, rankTo);
+                return this;
             }
         }
         return null; 
