@@ -54,5 +54,35 @@ public class Board {
         return board[rank-1][fileIndex];
     }
 
+    public static boolean isPathClear(ReturnPiece.PieceFile fromFile, int fromRank, ReturnPiece.PieceFile toFile, int toRank) {
+        int fStep;
+        int rStep;
+        ReturnPiece.PieceFile currfile = fromFile;
+        int currRank = fromRank;
 
+        if (fromFile.compareTo(toFile) < 0) {
+            fStep = 1;
+        } else if (fromFile.compareTo(toFile) > 0) {
+            fStep = -1;
+        } else {
+            fStep = 0;
+        }
+
+        if (fromRank < toRank) {
+            rStep = 1;
+        } else if (fromRank > toRank) {
+            rStep = -1;
+        } else {
+            rStep = 0;
+        }
+
+        while(currRank != toRank || currfile != toFile) {
+            currfile = ReturnPiece.PieceFile.values()[currfile.ordinal() + fStep];
+            currRank += rStep;
+            if (board[currRank-1][currfile.ordinal()] != null) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
