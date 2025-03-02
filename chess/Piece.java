@@ -48,7 +48,7 @@ class Pawn extends Piece {
         this.hasMoved = false;
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) { // Implemented pawn movement rules
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented pawn movement rules 
         int rankDiff = rankTo - pieceRank;
         int fileDiff = fileTo.compareTo(pieceFile);
 
@@ -127,9 +127,9 @@ class Rook extends Piece {
         this.hasMoved = false; 
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) { // Implemented rook movement rules
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented rook movement rules (still have to implement castling)
         if  (pieceRank == rankTo || pieceFile == fileTo) {
-            if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { //still have to implement isPathClear() method to Board
+            if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { 
                 pieceFile = fileTo;
                 pieceRank = rankTo;
                 hasMoved = true;
@@ -170,7 +170,7 @@ class Bishop extends Piece {
     
     public Piece move(PieceFile fileTo, int rankTo) { // Implemented bishop movement rules
         if (Math.abs(fileTo.compareTo(pieceFile)) == Math.abs(rankTo - pieceRank)) {
-            if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { //still have to implement isPathClear() method to Board
+            if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { 
                 pieceFile = fileTo;
                 pieceRank = rankTo;
                 return this;
@@ -187,7 +187,7 @@ class Queen extends Piece {
     
     public Piece move(PieceFile fileTo, int rankTo) { // Implemented queen movement rules
         if (Math.abs(fileTo.compareTo(pieceFile)) == Math.abs(rankTo - pieceRank) || pieceRank == rankTo || pieceFile == fileTo) {
-            if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { //still have to implement isPathClear() method to Board
+            if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { 
                 pieceFile = fileTo;
                 pieceRank = rankTo;
                 return this;
@@ -204,7 +204,7 @@ class King extends Piece {
         this.hasMoved = false;
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) { // Implemented king movement rules
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented king movement rules (still have to implement castling)
         int rankDiff = Math.abs(rankTo - pieceRank);
         int fileDiff = Math.abs(fileTo.compareTo(pieceFile));
 
