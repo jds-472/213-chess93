@@ -74,6 +74,7 @@ public class Chess {
 		else{
 			currPlayer = Player.white;
 		}
+		System.out.println("Piece: " + Board.getPiece(ReturnPiece.PieceFile.f, 5));
 		return result;
 	}
 	

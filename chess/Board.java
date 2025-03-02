@@ -46,6 +46,23 @@ public class Board {
         return pieces;
     }
 
+    public static void updateBoard(Piece piece) {
+        int rank = piece.getRank();
+        int file = piece.getFile().ordinal();
+        Piece destination = getPiece(piece.getFile(), rank);
+        if (destination != null) {
+            removePiece(destination);
+        }
+        board[rank-1][file] = piece;
+    }
+
+    public static void removePiece(Piece piece) {
+        int rank = piece.getRank();
+        int file = piece.getFile().ordinal();
+        System.out.println("Deleted: " + piece);
+        board[rank-1][file] = null;
+    }
+
     public static Piece getPiece(ReturnPiece.PieceFile file, int rank) {
         if (rank <= 0 || rank > 8) {
             throw new IllegalArgumentException("Invalid rank: " + rank);
