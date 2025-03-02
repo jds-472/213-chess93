@@ -154,12 +154,9 @@ class Knight extends Piece {
         if (dest != null && dest.getColor() == color) {
             return null;
         }
-        if (dest == null)
-        {
-            pieceFile = fileTo;
-            pieceRank = rankTo;
-        }
-        return this; // Implement knight movement rules
+        pieceFile = fileTo;
+        pieceRank = rankTo;
+        return this; // Implement deleting the piece it captures
     }
 }
 
