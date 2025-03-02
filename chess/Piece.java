@@ -45,10 +45,57 @@ class Pawn extends Piece {
     private boolean hasMoved;
     public Pawn(Chess.Player color, PieceType type, PieceFile file, int rank) {
         super(color, type, file, rank);
+        this.hasMoved = false;
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) {
-        return this; // Implement pawn movement rules
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented pawn movement rules
+        int rankDiff = rankTo - pieceRank;
+        int fileDiff = fileTo.compareTo(pieceFile);
+
+        if (Chess.Player.white == color) {
+            if (fileDiff == 0 && Board.getPiece(fileTo, rankTo) == null) {
+                if (rankDiff == 1) {
+                    pieceFile = fileTo;
+                    pieceRank = rankTo;
+                    hasMoved = true;
+                    return this;
+                }
+                if (rankDiff == 2 && !hasMoved) {
+                    pieceFile = fileTo;
+                    pieceRank = rankTo;
+                    hasMoved = true;
+                    return this;
+                }
+            }
+            if (Board.getPiece(fileTo, rankTo) != null && Math.abs(fileDiff) == 1 && rankDiff == 1) {
+                pieceFile = fileTo;
+                pieceRank = rankTo;
+                hasMoved = true;
+                return this;
+            }
+        } else {
+            if(fileDiff == 0 && Board.getPiece(fileTo, rankTo) == null) {
+                if (rankDiff == -1) {
+                    pieceFile = fileTo;
+                    pieceRank = rankTo;
+                    hasMoved = true;
+                    return this;
+                }
+                if (rankDiff == -2 && !hasMoved) {
+                    pieceFile = fileTo;
+                    pieceRank = rankTo;
+                    hasMoved = true;
+                    return this;
+                }
+            }
+            if(Board.getPiece(fileTo, rankTo) != null && Math.abs(fileDiff) == 1 && rankDiff == -1) {
+                pieceFile = fileTo;
+                pieceRank = rankTo;
+                hasMoved = true;
+                return this;
+            }
+        }
+        return null; 
     }
 
     public Piece promote(PieceFile fileTo, int rankTo, String type) {
@@ -77,10 +124,23 @@ class Rook extends Piece {
     private boolean hasMoved;
     public Rook(Chess.Player color, PieceType type, PieceFile file, int rank) {
         super(color, type, file, rank);
+        this.hasMoved = false; 
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) {
-        return this; // Implement rook movement rules
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented rook movement rules
+        if  (pieceRank == rankTo || pieceFile == fileTo) {
+            if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { //still have to implement isPathClear() method to Board
+                pieceFile = fileTo;
+                pieceRank = rankTo;
+                hasMoved = true;
+                return this;
+            }
+        }
+        return null; 
+    }
+
+    public boolean getHasMoved() {
+        return hasMoved;
     }
 }
 
@@ -108,8 +168,15 @@ class Bishop extends Piece {
         super(color, type, file, rank);
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) {
-        return this; // Implement bishop movement rules
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented bishop movement rules
+        if (Math.abs(fileTo.compareTo(pieceFile)) == Math.abs(rankTo - pieceRank)) {
+            if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { //still have to implement isPathClear() method to Board
+                pieceFile = fileTo;
+                pieceRank = rankTo;
+                return this;
+            }
+        }
+        return null; 
     }
 }
 
@@ -118,8 +185,15 @@ class Queen extends Piece {
         super(color, type, file, rank);
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) {
-        return this; // Implement queen movement rules
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented queen movement rules
+        if (Math.abs(fileTo.compareTo(pieceFile)) == Math.abs(rankTo - pieceRank) || pieceRank == rankTo || pieceFile == fileTo) {
+            if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { //still have to implement isPathClear() method to Board
+                pieceFile = fileTo;
+                pieceRank = rankTo;
+                return this;
+            }
+        }
+        return null; 
     }
 }
 
@@ -127,9 +201,22 @@ class King extends Piece {
     private boolean hasMoved;
     public King(Chess.Player color, PieceType type, PieceFile file, int rank) {
         super(color, type, file, rank);
+        this.hasMoved = false;
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) {
-        return this; // Implement king movement rules
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented king movement rules
+        int rankDiff = Math.abs(rankTo - pieceRank);
+        int fileDiff = Math.abs(fileTo.compareTo(pieceFile));
+
+        if (rankDiff <= 1 && fileDiff <= 1) {
+            pieceFile = fileTo;
+            pieceRank = rankTo;
+            hasMoved = true;
+        }
+        return null; 
+    }
+
+    public boolean getHasMoved() {
+        return hasMoved;
     }
 }
