@@ -8,6 +8,7 @@ public class Board {
     public Board() {
         board = new Piece[8][8];
     }
+
     public static void initialize() {
         board = new Piece[8][8];
         // Initialize pieces on the board
@@ -59,7 +60,6 @@ public class Board {
     public static void removePiece(Piece piece) {
         int rank = piece.getRank();
         int file = piece.getFile().ordinal();
-        System.out.println("Deleted: " + piece);
         board[rank-1][file] = null;
     }
 

@@ -74,7 +74,8 @@ public class Chess {
 		else{
 			currPlayer = Player.white;
 		}
-		System.out.println("Piece: " + Board.getPiece(ReturnPiece.PieceFile.f, 5));
+		result.piecesOnBoard.clear();
+		result.piecesOnBoard = Board.getPieces();
 		return result;
 	}
 	
