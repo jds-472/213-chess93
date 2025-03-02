@@ -74,7 +74,7 @@ public class Board {
     public static boolean isPathClear(ReturnPiece.PieceFile fromFile, int fromRank, ReturnPiece.PieceFile toFile, int toRank) {
         int fStep;
         int rStep;
-        ReturnPiece.PieceFile currfile = fromFile;
+        ReturnPiece.PieceFile currFile = fromFile;
         int currRank = fromRank;
 
         if (fromFile.compareTo(toFile) < 0) {
@@ -93,12 +93,19 @@ public class Board {
             rStep = 0;
         }
 
-        while(currRank != toRank || currfile != toFile) {
-            currfile = ReturnPiece.PieceFile.values()[currfile.ordinal() + fStep];
-            currRank += rStep;
-            if (board[currRank-1][currfile.ordinal()] != null) {
+        if (fStep != 0) {
+            currFile = ReturnPiece.PieceFile.values()[currFile.ordinal() + fStep];
+        }
+        currRank += rStep;
+
+        while ((currRank != toRank) || (currFile != toFile) && currFile.ordinal() >= 0 && currFile.ordinal() <= 7 && currRank >= 1 && currRank <= 8) {
+            if (board[currRank-1][currFile.ordinal()] != null) {
                 return false;
             }
+            if (fStep != 0) {
+                currFile = ReturnPiece.PieceFile.values()[currFile.ordinal() + fStep];
+            }
+            currRank += rStep;
         }
         return true;
     }
