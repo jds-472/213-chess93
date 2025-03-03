@@ -112,11 +112,12 @@ public class Board {
 
     public static boolean checkForCheck(Chess.Player player) {
         Piece king = null;
+        PieceType kType;
         
         if (player == Chess.Player.white) {
-            ReturnPiece.PieceType kType = ReturnPiece.PieceType.WK;
+            kType = ReturnPiece.PieceType.WK;
         } else {
-            ReturnPiece.PieceType kType = ReturnPiece.PieceType.BK;
+            kType = ReturnPiece.PieceType.BK;
         }
 
         for (int i = 0; i < 8; i++) {
