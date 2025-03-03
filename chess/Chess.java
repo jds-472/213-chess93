@@ -68,6 +68,20 @@ public class Chess {
 			System.out.println("current became null after move");
 			return result;
 		}
+		Piece blackKing = Board.getPiece(ReturnPiece.PieceType.BK);
+		Piece whiteKing = Board.getPiece(ReturnPiece.PieceType.WK);
+		if (current.getColor() == Player.white && Board.checkForCheck(Player.black, blackKing.getFile(), blackKing.getRank())){
+			if (Board.checkForCheckmate(Player.black)){
+				result.message = ReturnPlay.Message.CHECKMATE_WHITE_WINS;
+			}
+			result.message = ReturnPlay.Message.CHECK;
+		}
+		else if (current.getColor() == Player.black && Board.checkForCheck(Player.white, whiteKing.getFile(), whiteKing.getRank())){
+			if (Board.checkForCheckmate(Player.white)){
+				result.message = ReturnPlay.Message.CHECKMATE_BLACK_WINS;
+			}
+			result.message = ReturnPlay.Message.CHECK;
+		}
 		if (currPlayer == Player.white){
 			currPlayer = Player.black;
 		}
