@@ -93,7 +93,7 @@ abstract class Piece extends ReturnPiece{
            if (takenPiece != null) {
                Board.updateBoard(takenPiece);
            }
-           System.out.println("Test for check failed");
+           //System.out.println("Test for check failed");
            return null;
        }
 
@@ -271,7 +271,7 @@ class Knight extends Piece {
     public Piece move(PieceFile fileTo, int rankTo)
     {
         if (!canMove(fileTo, rankTo)) {
-            System.out.println("canMove failed");
+            //System.out.println("canMove failed");
             return null;
         }
         return testForCheck(fileTo, rankTo);
@@ -399,7 +399,7 @@ class King extends Piece {
                 updatePosition(fileTo, rankTo);
                 return this;
             }
-            System.out.println("king failed check");
+            //System.out.println("king failed check");
             // Piece ogPiece = Board.getPiece(fileTo, rankTo);
             // Piece oldPos = Board.getPiece(pieceFile, pieceRank);
             // Board.removePiece(this);
@@ -427,7 +427,7 @@ class King extends Piece {
                 boolean oneSquareCheck = Board.checkForCheck(color, fileTo.compareTo(pieceFile) < 0 ? PieceFile.d : PieceFile.f, rankTo);
                 boolean twoSquareCheck = Board.checkForCheck(color, fileTo.compareTo(pieceFile) < 0 ? PieceFile.c : PieceFile.g, rankTo);
                 if (currentCheck || oneSquareCheck || twoSquareCheck) {
-                    System.out.println("one of king squares is in check");
+                    //System.out.println("one of king squares is in check");
                     return null;
                 }
                 PieceFile rookFileTo = fileTo.compareTo(pieceFile) < 0 ? PieceFile.d : PieceFile.f;
@@ -437,7 +437,7 @@ class King extends Piece {
                 }
             }
         }
-        System.out.println("king just couldn't get it done");
+        //System.out.println("king just couldn't get it done");
         return null; 
     }
 

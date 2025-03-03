@@ -41,12 +41,12 @@ public class Chess {
 		Piece current = Board.getPiece(fromFile, fromRank);
 		if (current == null){
 			result.message = ReturnPlay.Message.ILLEGAL_MOVE;
-			System.out.println("current is null");
+			//System.out.println("current is null");
 			return result;
 		}
 		if (current.getColor() != currPlayer){
 			result.message = ReturnPlay.Message.ILLEGAL_MOVE;
-			System.out.println("wrong color");
+			//System.out.println("wrong color");
 			return result;
 		}
 		if (moveParts.length == 3 && moveParts[2].equals("draw?"))
@@ -65,7 +65,7 @@ public class Chess {
 		//if the move was invalid the piece wil return null
 		if (current == null){
 			result.message = ReturnPlay.Message.ILLEGAL_MOVE;
-			System.out.println("current became null after move");
+			//System.out.println("current became null after move");
 			return result;
 		}
 		Piece blackKing = Board.getPiece(ReturnPiece.PieceType.BK);
