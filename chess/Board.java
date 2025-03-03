@@ -112,7 +112,7 @@ public class Board {
 
     public static boolean checkForCheck(Chess.Player player) {
         Piece king = null;
-        PieceType kType;
+        ReturnPiece.PieceType kType;
         
         if (player == Chess.Player.white) {
             kType = ReturnPiece.PieceType.WK;
