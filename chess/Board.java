@@ -147,35 +147,39 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Piece piece = board[i][j];
-                if (piece != null && piece.getColor() != player) {
-                    Piece test = null;
-                    if (piece instanceof Pawn) {
-                        test = new Pawn(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
-                    } else if (test instanceof Rook) {
-                        test = new Rook(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
-                    } else if (test instanceof Knight) {
-                        test = new Knight(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
-                    } else if (test instanceof Bishop) {
-                        test = new Bishop(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
-                    } else if (test instanceof Queen) {
-                        test = new Queen(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
-                    } else if (test instanceof King) {
-                        test = new King(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                // if (piece != null && piece.getColor() != player) {
+                //     Piece test = null;
+                //     if (piece instanceof Pawn) {
+                //         test = new Pawn(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                //     } else if (test instanceof Rook) {
+                //         test = new Rook(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                //     } else if (test instanceof Knight) {
+                //         test = new Knight(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                //     } else if (test instanceof Bishop) {
+                //         test = new Bishop(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                //     } else if (test instanceof Queen) {
+                //         test = new Queen(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                //     } else if (test instanceof King) {
+                //         test = new King(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                //     }
+                    if (piece instanceof King) {
+                        continue;
                     }
-                    
-                    if (test != null) {
-                        if  (test.move(targetFile, targetRank) != null) {
+                    if (piece != null) {
+                        if  (piece.canMove(targetFile, targetRank)) {
                             return true;
                         }
                     }
                 }
             }
-        }
         return false;
     }
 
-    private boolean checkForCheck(Chess.Player player, int targetFile, int targetRank) {
-        return checkForCheck(player, ReturnPiece.PieceFile.values()[targetFile], targetRank);
+    public static boolean checkForCheck(Chess.Player player) {
+        Piece king = getPiece(player == Chess.Player.white ? ReturnPiece.PieceType.WK : ReturnPiece.PieceType.BK);
+        ReturnPiece.PieceFile targetFile = king.getFile();
+        int targetRank = king.getRank();
+        return checkForCheck(player, targetFile, targetRank);
     }
 
     public static boolean checkForCheckmate(Chess.Player player)
@@ -185,6 +189,7 @@ public class Board {
         ReturnPiece.PieceFile kingFile = king.getFile();
         int kingRank = king.getRank();
         //check if king is in check
+        
         if (!checkForCheck(player, kingFile, kingRank))
         {
             return false;
@@ -193,14 +198,14 @@ public class Board {
         //check left square
         if (kingFile != ReturnPiece.PieceFile.a){
             ReturnPiece.PieceFile leftFile = ReturnPiece.PieceFile.values()[kingFile.ordinal()-1];
-            if (!checkForCheck(player, leftFile, kingRank) || getPiece(leftFile, kingRank).getColor() == player){
+            if (king.canMove(leftFile, kingRank)){
                 return false;
             }
         }
         //check right square
         if (kingFile != ReturnPiece.PieceFile.h){
             ReturnPiece.PieceFile rightFile = ReturnPiece.PieceFile.values()[kingFile.ordinal()+1];
-            if (!checkForCheck(player, rightFile, kingRank) || getPiece(rightFile, kingRank).getColor() == player){
+            if (king.canMove(rightFile, kingRank)){
                 return false;
             }
         }
@@ -213,14 +218,14 @@ public class Board {
             //check down left square
             if (kingFile != ReturnPiece.PieceFile.a){
                 ReturnPiece.PieceFile leftFile = ReturnPiece.PieceFile.values()[kingFile.ordinal()-1];
-                if (!checkForCheck(player, leftFile, kingRank-1) || getPiece(leftFile, kingRank-1).getColor() == player){
+                if (king.canMove(leftFile, kingRank-1)){
                     return false;
                 }
             }
             //check down right square
             if (kingFile != ReturnPiece.PieceFile.h){
                 ReturnPiece.PieceFile rightFile = ReturnPiece.PieceFile.values()[kingFile.ordinal()+1];
-                if (!checkForCheck(player, rightFile, kingRank-1) || getPiece(rightFile, kingRank-1).getColor() == player){
+                if (king.canMove(rightFile, kingRank-1)){
                     return false;
                 }
             }
@@ -228,25 +233,24 @@ public class Board {
         else if (kingRank != 8)
         {
             //check up square
-            if (!checkForCheck(player, kingFile, kingRank+1) || getPiece(kingFile, kingRank+1).getColor() == player){
+            if (king.canMove(kingFile, kingRank+1)){
                 return false;
             }
             //check up left square
             if (kingFile != ReturnPiece.PieceFile.a){
                 ReturnPiece.PieceFile leftFile = ReturnPiece.PieceFile.values()[kingFile.ordinal()-1];
-                if (!checkForCheck(player, leftFile, kingRank+1) || getPiece(leftFile, kingRank+1).getColor() == player){
+                if (king.canMove(leftFile, kingRank+1)){
                     return false;
                 }
             }
             //check up right square
             if (kingFile != ReturnPiece.PieceFile.h){
                 ReturnPiece.PieceFile rightFile = ReturnPiece.PieceFile.values()[kingFile.ordinal()+1];
-                if (!checkForCheck(player, rightFile, kingRank+1) || getPiece(rightFile, kingRank+1).getColor() == player){
+                if (king.canMove(rightFile, kingRank+1)){
                     return false;
                 }
             }
         }
-        
         return true; 
     }
 }
