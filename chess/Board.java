@@ -140,7 +140,7 @@ public class Board {
                 Piece piece = board[i][j];
                 if (piece != null && piece.getColor() != player) {
                     Piece test = null;
-                    if (test instanceof Pawn) {
+                    if (piece instanceof Pawn) {
                         test = new Pawn(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
                     } else if (test instanceof Rook) {
                         test = new Rook(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
