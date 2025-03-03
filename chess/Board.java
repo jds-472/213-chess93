@@ -252,6 +252,39 @@ public class Board {
                 }
             }
         }
+
+        if (canBlockOrCapture(player)) { //if you can block or capture the attacking piece
+            return false;
+        }
         return true; 
+    }
+
+    private static boolean canBlockOrCapture(Chess.Player player)
+    {
+        //check if any piece can block or capture the attacking piece
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Piece piece = board[i][j];
+                if (piece != null && piece.getColor() == player) {
+                    for (int k = 0; k < 8; k++)
+                    {
+                        for (int l = 0; l < 8; l++)
+                        {
+                            Piece target = board[k][l];
+                            if (target != null && target.getColor() == player)
+                            {
+                                continue;
+                            }
+                            if (piece.canMove(ReturnPiece.PieceFile.values()[k-1], l+1) && piece.getColor() == player) //still working here because canMove doesn't test for still being in check
+                            {
+                                System.out.println(piece + " can move to " + ReturnPiece.PieceFile.values()[k-1] + (l+1));
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

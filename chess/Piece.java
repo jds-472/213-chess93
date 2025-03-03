@@ -93,7 +93,7 @@ abstract class Piece extends ReturnPiece{
            if (takenPiece != null) {
                Board.updateBoard(takenPiece);
            }
-           //System.out.println("Test for check failed");
+           System.out.println("Test for check failed");
            return null;
        }
 
@@ -271,7 +271,7 @@ class Knight extends Piece {
     public Piece move(PieceFile fileTo, int rankTo)
     {
         if (!canMove(fileTo, rankTo)) {
-            //System.out.println("canMove failed");
+            System.out.println("canMove failed");
             return null;
         }
         return testForCheck(fileTo, rankTo);
@@ -399,7 +399,6 @@ class King extends Piece {
                 updatePosition(fileTo, rankTo);
                 return this;
             }
-            //System.out.println("king failed check");
             // Piece ogPiece = Board.getPiece(fileTo, rankTo);
             // Piece oldPos = Board.getPiece(pieceFile, pieceRank);
             // Board.removePiece(this);
@@ -422,12 +421,11 @@ class King extends Piece {
 
         if (rankDiff == 0 && fileDiff == 2 && !hasMoved) {
             Piece rook = fileTo.compareTo(pieceFile) < 0 ? Board.getPiece(PieceFile.a, pieceRank) : Board.getPiece(PieceFile.h, pieceRank);
-            if (rook != null && !rook.getHasMoved()) {
+            if (rook != null && !rook.getHasMoved() && ((rook.getType() == PieceType.WR && color == Chess.Player.white) || (rook.getType() == PieceType.BR && color == Chess.Player.black))) {
                 boolean currentCheck = Board.checkForCheck(color, fileTo, rankTo);
                 boolean oneSquareCheck = Board.checkForCheck(color, fileTo.compareTo(pieceFile) < 0 ? PieceFile.d : PieceFile.f, rankTo);
                 boolean twoSquareCheck = Board.checkForCheck(color, fileTo.compareTo(pieceFile) < 0 ? PieceFile.c : PieceFile.g, rankTo);
                 if (currentCheck || oneSquareCheck || twoSquareCheck) {
-                    //System.out.println("one of king squares is in check");
                     return null;
                 }
                 PieceFile rookFileTo = fileTo.compareTo(pieceFile) < 0 ? PieceFile.d : PieceFile.f;
@@ -437,7 +435,6 @@ class King extends Piece {
                 }
             }
         }
-        //System.out.println("king just couldn't get it done");
         return null; 
     }
 
