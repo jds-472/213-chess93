@@ -109,4 +109,58 @@ public class Board {
         }
         return true;
     }
+
+    public static boolean checkForCheck(Chess.Player player) {
+        Piece king = null;
+        
+        if (player == Chess.Player.white) {
+            ReturnPiece.PieceType kType = ReturnPiece.PieceType.WK;
+        } else {
+            ReturnPiece.PieceType kType = ReturnPiece.PieceType.BK;
+        }
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j] != null && board[i][j].getType() == kType) {
+                    king = board[i][j];
+                    break;
+                }
+            }
+            if (king != null) {
+                break;
+            }
+        }
+
+        ReturnPiece.PieceFile kFile = king.getFile();
+        int kRank = king.getRank();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Piece piece = board[i][j];
+                if (piece != null && piece.getColor() != player) {
+                    Piece test = null;
+                    if (test instanceof Pawn) {
+                        test = new Pawn(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                    } else if (test instanceof Rook) {
+                        test = new Rook(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                    } else if (test instanceof Knight) {
+                        test = new Knight(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                    } else if (test instanceof Bishop) {
+                        test = new Bishop(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                    } else if (test instanceof Queen) {
+                        test = new Queen(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                    } else if (test instanceof King) {
+                        test = new King(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                    }
+                    
+                    if (test != null) {
+                        if  (test.move(kFile, kRank) != null) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
