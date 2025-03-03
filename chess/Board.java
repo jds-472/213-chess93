@@ -166,7 +166,8 @@ public class Board {
                         continue;
                     }
                     if (piece != null) {
-                        if  (piece.canMove(targetFile, targetRank)) {
+                        if  (piece.canMove(targetFile, targetRank) && piece.getColor() != player) {
+                            System.out.println(piece + " can attack " + targetFile + targetRank);
                             return true;
                         }
                     }
