@@ -236,32 +236,40 @@ class King extends Piece {
         int fileDiff = Math.abs(fileTo.compareTo(pieceFile));
 
         if (rankDiff <= 1 && fileDiff <= 1 && (rankDiff != 0 || fileDiff != 0)) { // Normal king movement
-            Piece ogPiece = Board.getPiece(fileTo, rankTo);
-            Piece oldPos = Board.getPiece(pieceFile, pieceRank);
-            Board.removePiece(this);
-            pieceFile = fileTo;
-            pieceRank = rankTo;
-            Board.updateBoard(this);
-            boolean inCheck = Board.checkForCheck(color);
-
-            if (inCheck) {
-                Board.removePiece(this);
-                pieceFile = oldPos.getFile();
-                pieceRank = oldPos.getRank();
-                Board.updateBoard(oldPos);
-                if (ogPiece != null) {
-                    Board.updateBoard(ogPiece);
-                }
-                return null;
+            if (!Board.checkForCheck(color, fileTo, rankTo))
+            {
+                updatePosition(fileTo, rankTo);
+                return this;
             }
-            
-            updatePosition(fileTo, rankTo);
-            return this;
+            // Piece ogPiece = Board.getPiece(fileTo, rankTo);
+            // Piece oldPos = Board.getPiece(pieceFile, pieceRank);
+            // Board.removePiece(this);
+            // pieceFile = fileTo;
+            // pieceRank = rankTo;
+            // Board.updateBoard(this);
+            // boolean inCheck = Board.checkForCheck(color);
+
+            // if (inCheck) {
+            //     Board.removePiece(this);
+            //     pieceFile = oldPos.getFile();
+            //     pieceRank = oldPos.getRank();
+            //     Board.updateBoard(oldPos);
+            //     if (ogPiece != null) {
+            //         Board.updateBoard(ogPiece);
+            //     }
+            //     return null;
+            //}
         }
 
         if (rankDiff == 0 && fileDiff == 2 && !hasMoved) {
             Piece rook = fileTo.compareTo(pieceFile) < 0 ? Board.getPiece(PieceFile.a, pieceRank) : Board.getPiece(PieceFile.h, pieceRank);
             if (rook != null && !rook.getHasMoved() && ((rook.getType() == PieceType.WR && color == Chess.Player.white) || (rook.getType() == PieceType.BR && color == Chess.Player.black))) {
+                boolean currentCheck = Board.checkForCheck(color, fileTo, rankTo);
+                boolean oneSquareCheck = Board.checkForCheck(color, fileTo.compareTo(pieceFile) < 0 ? PieceFile.d : PieceFile.f, rankTo);
+                boolean twoSquareCheck = Board.checkForCheck(color, fileTo.compareTo(pieceFile) < 0 ? PieceFile.c : PieceFile.g, rankTo);
+                if (currentCheck || oneSquareCheck || twoSquareCheck) {
+                    return null;
+                }
                 PieceFile rookFileTo = fileTo.compareTo(pieceFile) < 0 ? PieceFile.d : PieceFile.f;
                 if (rook.move(rookFileTo, rankTo) != null) {
                     updatePosition(fileTo, rankTo);
