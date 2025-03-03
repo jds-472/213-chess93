@@ -235,7 +235,26 @@ class King extends Piece {
         int rankDiff = Math.abs(rankTo - pieceRank);
         int fileDiff = Math.abs(fileTo.compareTo(pieceFile));
 
-        if (rankDiff <= 1 && fileDiff <= 1 && (rankDiff != 0 || fileDiff != 0)) {
+        if (rankDiff <= 1 && fileDiff <= 1 && (rankDiff != 0 || fileDiff != 0)) { // Normal king movement
+            Piece ogPiece = Board.getPiece(fileTo, rankTo);
+            Piece oldPos = Board.getPiece(pieceFile, pieceRank);
+            Board.removePiece(this);
+            pieceFile = fileTo;
+            pieceRank = rankTo;
+            Board.updateBoard(this);
+            boolean inCheck = Board.checkForCheck(color);
+
+            if (inCheck) {
+                Board.removePiece(this);
+                pieceFile = oldPos.getFile();
+                pieceRank = oldPos.getRank();
+                Board.updateBoard(oldPos);
+                if (ogPiece != null) {
+                    Board.updateBoard(ogPiece);
+                }
+                return null;
+            }
+            
             updatePosition(fileTo, rankTo);
             return this;
         }
