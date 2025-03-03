@@ -1,3 +1,4 @@
+//Joseph Scarpulla; Roger Ramirez
 package chess;
 
 import java.util.ArrayList;
