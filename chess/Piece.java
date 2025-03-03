@@ -71,6 +71,30 @@ abstract class Piece extends ReturnPiece{
         lastTurn = Clock.getCurrentTurn();
         Clock.incrementTurn();
     }
+
+    protected Piece testForCheck (PieceFile fileTo, int rankTo) {
+        PieceFile ogFile = pieceFile;
+        int ogRank = pieceRank;
+        Piece takenPiece = Board.getPiece(fileTo, rankTo);
+        Board.removePiece(this);
+        pieceFile = fileTo;
+        pieceRank = rankTo;
+        Board.updateBoard(this);
+        
+        if (Board.checkForCheck(color)) {
+            Board.removePiece(this);
+            pieceFile = ogFile;
+            pieceRank = ogRank;
+            Board.updateBoard(this);
+            if (takenPiece != null) {
+                Board.updateBoard(takenPiece);
+            }
+            return null;
+        }
+
+        updatePosition(fileTo, rankTo);
+        return this;
+    }
 }
 
 class Pawn extends Piece {
@@ -149,14 +173,15 @@ class Rook extends Piece {
         this.hasMoved = false; 
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) { // Implemented rook movement rules (still have to implement castling)
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented rook movement rules 
         if (super.move(fileTo, rankTo) == null){
             return null;
         }
         if  (pieceRank == rankTo || pieceFile == fileTo) {
             if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { 
-                updatePosition(fileTo, rankTo);
-                return this;
+                return testForCheck(fileTo, rankTo);
+                //updatePosition(fileTo, rankTo);
+                //return this;
             }
         }
         return null; 
@@ -177,8 +202,9 @@ class Knight extends Piece {
         int fileDiff = Math.abs(fileTo.compareTo(pieceFile));
         if ((rankDiff == 2 && fileDiff == 1) || (rankDiff == 1 && fileDiff == 2)) {
             if (dest == null || dest.getColor() != color) {
-                updatePosition(fileTo, rankTo);
-                return this;
+                return testForCheck(fileTo, rankTo);
+                //updatePosition(fileTo, rankTo);
+                //return this;
             }
         }
         return null;
@@ -196,8 +222,9 @@ class Bishop extends Piece {
         }
         if (Math.abs(fileTo.compareTo(pieceFile)) == Math.abs(rankTo - pieceRank)) {
             if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { 
-                updatePosition(fileTo, rankTo);
-                return this;
+                return testForCheck(fileTo, rankTo);
+                //updatePosition(fileTo, rankTo);
+                //return this;
             }
         }
         return null; 
@@ -215,8 +242,9 @@ class Queen extends Piece {
         }
         if (Math.abs(fileTo.compareTo(pieceFile)) == Math.abs(rankTo - pieceRank) || pieceRank == rankTo || pieceFile == fileTo) {
             if (Board.isPathClear(pieceFile, pieceRank, fileTo, rankTo)) { 
-                updatePosition(fileTo, rankTo);
-                return this;
+                return testForCheck(fileTo, rankTo);
+                //updatePosition(fileTo, rankTo);
+                //return this;
             }
         }
         return null; 
@@ -228,7 +256,7 @@ class King extends Piece {
         super(color, type, file, rank);
     }
     
-    public Piece move(PieceFile fileTo, int rankTo) { // Implemented king movement rules (still have to implement castling)
+    public Piece move(PieceFile fileTo, int rankTo) { // Implemented king movement rules 
         if (super.move(fileTo, rankTo) == null){
             return null;
         }
