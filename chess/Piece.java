@@ -183,7 +183,7 @@ class Pawn extends Piece {
 
     private boolean canEnPassant(PieceFile fileTo, int rankTo) {
         Piece destination = Board.getPiece(fileTo, rankTo);
-        if (destination != null && Math.abs(fileTo.compareTo(pieceFile)) == 1 && Math.abs(rankTo - pieceRank) == 1) {
+        if (destination == null && Math.abs(fileTo.compareTo(pieceFile)) == 1 && Math.abs(rankTo - pieceRank) == 1) {
             Piece enPassant = Board.getPiece(fileTo, pieceRank);
             if (enPassant != null && ((enPassant.getType() == PieceType.WP && color == Chess.Player.black) || enPassant.getType() == PieceType.BP && color == Chess.Player.white) && enPassant.getLastTurn() == Clock.getCurrentTurn() - 1 && ((Pawn) enPassant).getSquaresMoved() == 2) {
                 return true;
