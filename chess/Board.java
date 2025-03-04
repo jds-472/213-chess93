@@ -143,7 +143,10 @@ public class Board {
         //         break;
         //     }
         // }
-        
+        Piece target = getPiece(targetFile, targetRank);
+        if (target != null) {
+            removePiece(target);
+        }
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Piece piece = board[i][j];
@@ -167,12 +170,18 @@ public class Board {
                     }
                     if (piece != null) {
                         if  (piece.canMove(targetFile, targetRank) && piece.getColor() != player) {
-                            //System.out.println(piece + " can attack " + targetFile + targetRank);
+                            System.out.println(piece + " can attack " + targetFile + targetRank);
+                            if (target != null) {
+                                updateBoard(target);
+                            }
                             return true;
                         }
                     }
                 }
             }
+        if (target != null) {
+            updateBoard(target);
+        }
         return false;
     }
 
@@ -213,7 +222,7 @@ public class Board {
         if (kingRank != 1)
         {
             //check down square
-            if (!checkForCheck(player, kingFile, kingRank-1) || getPiece(kingFile, kingRank-1).getColor() == player){
+            if (king.canMove(kingFile, kingRank-1)){
                 return false;
             }
             //check down left square
@@ -252,7 +261,6 @@ public class Board {
                 }
             }
         }
-
         if (canBlockOrCapture(player)) { //if you can block or capture the attacking piece
             return false;
         }

@@ -395,8 +395,7 @@ class King extends Piece {
         if (rankDiff <= 1 && fileDiff <= 1 && (rankDiff != 0 || fileDiff != 0)) { // Normal king movement
             if (!Board.checkForCheck(color, fileTo, rankTo))
             {
-                updatePosition(fileTo, rankTo);
-                return this;
+                return testForCheck(fileTo, rankTo);
             }
             // Piece ogPiece = Board.getPiece(fileTo, rankTo);
             // Piece oldPos = Board.getPiece(pieceFile, pieceRank);
@@ -446,6 +445,8 @@ class King extends Piece {
         int fileDiff = Math.abs(fileTo.compareTo(pieceFile));
 
         if (rankDiff <= 1 && fileDiff <= 1 && (rankDiff != 0 || fileDiff != 0)) {
+            System.out.println("he tries to move to " + fileTo + rankTo);
+            System.out.println("and " + Board.checkForCheck(color, fileTo, rankTo));
             return !Board.checkForCheck(color, fileTo, rankTo);
         }
 

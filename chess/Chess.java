@@ -94,9 +94,9 @@ public class Chess {
 		}
 		result.piecesOnBoard.clear();
 		result.piecesOnBoard = Board.getPieces();
-		for (ReturnPiece p : result.piecesOnBoard){
-			System.out.println(p);
-		}
+		// for (ReturnPiece p : result.piecesOnBoard){
+		// 	System.out.println(p);
+		// }
 		return result;
 	}
 	
