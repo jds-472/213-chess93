@@ -52,6 +52,10 @@ public class Chess {
 		if (moveParts.length == 3 && moveParts[2].equals("draw?"))
 		{
 			result.message = ReturnPlay.Message.DRAW;
+			current = current.move(toFile, toRank);
+			result.piecesOnBoard.clear();
+			result.piecesOnBoard = Board.getPieces();
+			return result;
 		}
 		else if (moveParts.length == 3)
 		{
