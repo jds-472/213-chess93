@@ -275,9 +275,41 @@ public class Board {
                             {
                                 continue;
                             }
-                            if (piece.canMove(ReturnPiece.PieceFile.values()[k-1], l+1) && piece.getColor() == player) //still working here because canMove doesn't test for still being in check
+                            Piece ogPiece;
+                            switch (piece.getType())
                             {
-                                System.out.println(piece + " can move to " + ReturnPiece.PieceFile.values()[k-1] + (l+1));
+                                case WP:
+                                case BP:
+                                    ogPiece = new Pawn(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                                    break;
+                                case WR:
+                                case BR:
+                                    ogPiece = new Rook(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                                    break;
+                                case WN:
+                                case BN:
+                                    ogPiece = new Knight(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                                    break;
+                                case WB:
+                                case BB:
+                                    ogPiece = new Bishop(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                                    break;
+                                case WQ:
+                                case BQ:
+                                    ogPiece = new Queen(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                                    break;
+                                case WK:
+                                case BK:
+                                    ogPiece = new King(piece.getColor(), piece.getType(), piece.getFile(), piece.getRank());
+                                    break;
+                                default:
+                                    ogPiece = null;
+                                    break;
+                            }
+                            if (piece.move(ReturnPiece.PieceFile.values()[k-1], l+1) != null && piece.getColor() == player) //still working here because canMove doesn't test for still being in check
+                            {
+                                removePiece(piece);
+                                updateBoard(ogPiece);
                                 return true;
                             }
                         }
