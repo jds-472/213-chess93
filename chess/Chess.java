@@ -20,7 +20,7 @@ public class Chess {
 		ReturnPlay result = new ReturnPlay();
 		result.piecesOnBoard = Board.getPieces();
 		if (move.equals("resign")){
-			if(currPlayer == Player.white){
+			if(currPlayer != Player.white){
 				result.message = ReturnPlay.Message.RESIGN_WHITE_WINS;
 				return result;
 			}
