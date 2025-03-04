@@ -306,9 +306,14 @@ public class Board {
                                     ogPiece = null;
                                     break;
                             }
-                            if (piece.move(ReturnPiece.PieceFile.values()[k-1], l+1) != null && piece.getColor() == player) //still working here because canMove doesn't test for still being in check
+                            Piece ogTarget = getPiece(ReturnPiece.PieceFile.values()[k], l+1);
+                            if (piece.move(ReturnPiece.PieceFile.values()[k], l+1) != null && piece.getColor() == player) //still working here because canMove doesn't test for still being in check
                             {
                                 removePiece(piece);
+                                if (ogTarget != null)
+                                {
+                                    updateBoard(ogTarget);
+                                }
                                 updateBoard(ogPiece);
                                 return true;
                             }
